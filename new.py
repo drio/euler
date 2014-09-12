@@ -10,6 +10,20 @@ __DESC__
 func main() {
 }'''
 
+py = '''#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# vim: set ts=4 noet ft=python:
+#
+
+__START__
+__DESC__
+__END__
+
+def main():
+    None
+'''
+
 def getDesc(n):
   start = False
   desc = []
@@ -26,8 +40,16 @@ for f in glob.glob('p*'):
 nextNum = str(sorted(n)[-1] + 1)
 newDir = "./p" + nextNum
 newFile = newDir + "/euler-p" + nextNum + ".go"
+newFilePy = newDir + "/euler-p" + nextNum + ".py"
 
+print "Creating go file ..."
 os.mkdir(newDir)
 f = open(newFile, "w")
 f.write(go.replace('__DESC__', getDesc(nextNum)))
+f.close()
+
+print "Creating py file ..."
+f = open(newFilePy, "w")
+s = py.replace('__DESC__', getDesc(nextNum)).replace('__START__', "'''").replace('__END__', "'''")
+f.write(s)
 f.close()
