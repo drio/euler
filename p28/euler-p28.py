@@ -34,10 +34,6 @@ class Spiral(object):
         self.moves_lu = 2
         self.val = 1
 
-        matrix, val, row, col, size = self.matrix, self.val, self.row, self.col, self.size
-        moves_rd, moves_lu = self.moves_rd, self.moves_lu
-        check = self.check
-
     def init_matrix(self):
         self.matrix = []
         for row in range(0, self.size):
@@ -48,33 +44,21 @@ class Spiral(object):
             return False
         return True
 
+    def update(self, moves, add_r, add_c):
+        for _ in range(0, moves):
+            self.row += add_r
+            self.col += add_c
+            self.val += 1
+            if not self.check(): break
+            self.matrix[self.row][self.col] = self.val
+
     def build(self):
         self.matrix[self.row][self.col] = self.val
         while self.val < (self.size * self.size):
-            for _ in range(0, self.moves_rd):
-                self.col += 1
-                self.val += 1
-                if not self.check(): break
-                self.matrix[self.row][self.col] = self.val
-
-            for _ in range(0, self.moves_rd):
-                self.row += 1
-                self.val += 1
-                if not self.check(): break
-                self.matrix[self.row][self.col] = self.val
-
-            for _ in range(0, self.moves_lu):
-                self.col -= 1
-                self.val += 1
-                if not self.check(): break
-                self.matrix[self.row][self.col] = self.val
-
-            for _ in range(0, self.moves_lu):
-                self.row -= 1
-                self.val += 1
-                if not self.check(): break
-                self.matrix[self.row][self.col] = self.val
-
+            self.update(self.moves_rd, 0, 1)
+            self.update(self.moves_rd, 1, 0)
+            self.update(self.moves_lu, 0, -1)
+            self.update(self.moves_lu, -1, 0)
             self.moves_rd += 2
             self.moves_lu += 2
 
