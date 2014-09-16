@@ -25,61 +25,64 @@
 //
 '''
 
-size = 5
+class Spiral(object):
+    def __init__(self, size):
+        self.size = size
+        self.init_matrix()
+        self.row, self.col = size/2, size/2
+        self.moves_rd = 1
+        self.moves_lu = 2
+        self.val = 1
 
-def init_matrix(size):
-    matrix = []
-    for row in range(0, size):
-        matrix.append([0] * size)
-    return matrix
+        matrix, val, row, col, size = self.matrix, self.val, self.row, self.col, self.size
+        moves_rd, moves_lu = self.moves_rd, self.moves_lu
+        check = self.check
 
-def check(m, r, c):
-    if r >= size or c >= size or m[r][c] > 1:
-        return False
-    return True
+    def init_matrix(self):
+        self.matrix = []
+        for row in range(0, self.size):
+            self.matrix.append([0] * self.size)
 
-def main():
-    matrix = init_matrix(size)
-    matrix[size/2][size/2] = 1
+    def check(self):
+        if self.row >= self.size or self.col >= self.size or self.matrix[self.row][self.col] > 1:
+            return False
+        return True
 
-    row, col = size/2, size/2
-    moves_rd = 1
-    moves_lu = 2
-    val = 1
-    while val < (size * size):
-        for _ in range(0, moves_rd):
-            col += 1
-            val += 1
-            if not check(matrix, row, col): break
-            print row, col, val
-            matrix[row][col] = val
+    def build(self):
+        self.matrix[self.row][self.col] = self.val
+        while self.val < (self.size * self.size):
+            for _ in range(0, self.moves_rd):
+                self.col += 1
+                self.val += 1
+                if not self.check(): break
+                self.matrix[self.row][self.col] = self.val
 
-        for _ in range(0, moves_rd):
-            row += 1
-            val += 1
-            if not check(matrix, row, col): break
-            print row, col, val
-            matrix[row][col] = val
+            for _ in range(0, self.moves_rd):
+                self.row += 1
+                self.val += 1
+                if not self.check(): break
+                self.matrix[self.row][self.col] = self.val
 
-        for _ in range(0, moves_lu):
-            col -= 1
-            val += 1
-            if not check(matrix, row, col): break
-            print row, col, val
-            matrix[row][col] = val
+            for _ in range(0, self.moves_lu):
+                self.col -= 1
+                self.val += 1
+                if not self.check(): break
+                self.matrix[self.row][self.col] = self.val
 
-        for _ in range(0, moves_lu):
-            row -= 1
-            val += 1
-            if not check(matrix, row, col): break
-            print row, col, val
-            matrix[row][col] = val
+            for _ in range(0, self.moves_lu):
+                self.row -= 1
+                self.val += 1
+                if not self.check(): break
+                self.matrix[self.row][self.col] = self.val
 
-        moves_rd += 2
-        moves_lu += 2
+            self.moves_rd += 2
+            self.moves_lu += 2
 
-    for r in range(0, size):
-        print matrix[r]
+        return self
 
-main()
+    def dump(self):
+        for r in range(0, self.size):
+            print self.matrix[r]
+
+Spiral(5).build().dump()
 
