@@ -64,9 +64,16 @@ class Spiral(object):
 
         return self
 
+    def sum_diagonals(self):
+        _sum = 0
+        for r in range(0, self.size):
+            _sum += self.matrix[r][r]
+            _sum += self.matrix[r][self.size-r-1]
+        return _sum - 1
+
     def dump(self):
         for r in range(0, self.size):
             print self.matrix[r]
 
-Spiral(5).build().dump()
+print Spiral(1001).build().sum_diagonals()
 
